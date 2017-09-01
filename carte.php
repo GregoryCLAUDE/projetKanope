@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <?php
 $listadresse=[];
 try {
-  $bdd = new PDO("mysql:host=localhost; dbname=locations; charset=utf8", "root", "j9hn2x2");
+  $bdd = new PDO("mysql:host=localhost; dbname=votre_base_de_donné; charset=utf8", "nom_utilisateur", "mot_de_passe");
 } catch (Exception $e) {
   die("Erreur : ".$e -> getMessage());
 }
@@ -54,30 +55,30 @@ $geocoder = "http://maps.googleapis.com/maps/api/geocode/json?address=%s&sensor=
 
   //var_dump($listaddressjson);
 
-
-
-ob_start();
 ?>
+
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test carte</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css"
-    integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
-    crossorigin=""/>
-    <link rel="stylesheet" href="<?= plugin_dir_path('/cartestyle.css') ?>">
+  integrity="sha512-wcw6ts8Anuw10Mzh9Ytw4pylW8+NAD4ch3lqm9lzAsTxg0GFeJgoAtxuCLREZSC5lUXdVyo/7yfsqFjQ4S+aKw=="
+  crossorigin=""/>
+  <link rel="stylesheet" href="../../wp-content/plugins/carte/cartestyle.css">
+
+
+</head>
+  <body>
+
+    <h1>La carte</h1>
+    <div id="map"></div>
+
+
 
     <script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js"
     integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA=="
     crossorigin=""></script>
-
-
-    <style type="text/css">
-      #map {
-        display: block;
-        height: 400px;
-        width: auto;
-      }
-    </style>
-
-    <h1>La carte</h1>
-    <div id="map"></div>
 
 
     <script type="text/javascript">
@@ -107,7 +108,7 @@ ob_start();
 
 
         var coord = <?= $listaddressjson ?>;
-//        console.log(coord);
+        console.log(coord);
         var markers = [];
         var rue = [];
 
@@ -121,30 +122,27 @@ ob_start();
         for (var i = 0; i < coord.length; i++) {
           // markers[i].addTo(map);
 
-          var marker = L.marker([coord[i].Lat, coord[i].Lng]).bindPopup(coord[i].Rue).addTo(map);
-          marker.on('mouseover', function (e) {
-            this.openPopup();
-          });
-          marker.on('mouseout', function (e) {
-            this.closePopup();
-          });
-//          console.log(marker)
-        }
+
+        var marker = L.marker([coord[i].Lat, coord[i].Lng]).bindPopup(coord[i].Rue).addTo(map);
+        marker.on('mouseover', function (e) {
+          this.openPopup();
+        });
+        marker.on('mouseout', function (e) {
+          this.closePopup();
+        });
+          console.log(marker)
+      }
 
 
-    };
+     };
 
 
 
-      document.addEventListener( 'DOMContentLoaded',InitialiserCarte );
+    document.addEventListener('DOMContentLoaded',
+    InitialiserCarte());
     </script>
+  </body>
 
 
-<?php
+</html>
 
-
-$page = ob_get_contents();
-ob_end_clean();
-return $page;
-
-?>

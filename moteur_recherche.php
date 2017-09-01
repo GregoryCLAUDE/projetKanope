@@ -1,7 +1,14 @@
-<?php ob_start(); ?>
 
-
-    <form class="" action="<?=get_permalink() ?>" method="post">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>formulaire de requete</title>
+  </head>
+  <body>
+      <!-- formulaire du moteur de recherche dans action il faudra mettre le vrai
+           chemin pour votre site -->
+    <form class="" action" http://localhost/wp-v1/wordpress/index.php/page-d-exemple" method="post">
       <label for="ville">Ville</label>
       <input type="text" name="ville" id='ville'>
       <label for="departement">departement</label>
@@ -93,15 +100,6 @@ if(!empty($_POST)){
 
    </tbody>
  </table>
+</body>
+</html>
 
-
-
-
-<?php
-
-
-$page = ob_get_contents();
-ob_end_clean();
-return $page;
-
-?>
